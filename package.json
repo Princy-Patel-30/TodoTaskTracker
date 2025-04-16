@@ -1,0 +1,23 @@
+{
+  "name": "todotasktracker",
+  "version": "1.0.0",
+  "description": "aditya , vraj and me",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Princy-Patel-30/TodoTaskTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Princy-Patel-30/TodoTaskTracker/issues"
+  },
+  "homepage": "https://github.com/Princy-Patel-30/TodoTaskTracker#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
