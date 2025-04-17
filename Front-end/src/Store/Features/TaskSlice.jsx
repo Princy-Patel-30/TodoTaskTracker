@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+const base_url =  import.meta.env.VITE_BASE_URL
 export const fetchTodos = createAsyncThunk('tasks/fetchTodos', async () => {
-  const response = await axios.get('https://your-backend-api.com/todos')
+  const response = await axios.get(`${base_url}/tasks`)
   return response.data
 })
 
@@ -37,4 +38,4 @@ const TaskSlice = createSlice({
 })
 
 export const { addTask } = TaskSlice.actions
-export default TaskSlice.reducer
+export default TaskSlice.reducer 
