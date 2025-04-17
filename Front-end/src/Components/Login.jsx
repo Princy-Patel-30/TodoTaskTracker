@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+
 
 const Login = () => {
   const {
@@ -14,26 +16,35 @@ const Login = () => {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const onSubmit = async (data) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/auth/login`, data, {
-      withCredentials: true, 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, data, {
+        withCredentials: true, 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    if (response.status === 200) {
-      console.log('Login successful:', response.data);
-      navigate('/'); 
-    } else {
-      alert(response.data.message || 'Login failed');
+      if (response.status === 200) {
+        console.log('Login successful:', response.data);
+        const token = response.data.token; // Assuming the token is returned in the response
+        const decodedToken = jwtDecode(token); // Decode the token to get user info
+        const role = decodedToken.role; // Extract the role from the token
+
+        // Redirect based on role
+        if (role === 'admin') {
+          navigate('/admin'); // Redirect to admin dashboard
+        } else {
+          navigate('/'); // Redirect to employee dashboard
+        }
+      } else {
+        alert(response.data.message || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert(error.response?.data?.message || 'Something went wrong. Try again.');
     }
-  } catch (error) {
-    console.error('Error logging in:', error);
-    alert(error.response?.data?.message || 'Something went wrong. Try again.');
-  }
-};
+  };
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
