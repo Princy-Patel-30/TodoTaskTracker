@@ -7,6 +7,7 @@ import { roleCheck } from '../middleware/roleMiddleware.js';
 const router = express.Router();
 
 
+router.get('/', getTasks);
 router.use(protect); 
  
 router.post('/', roleCheck('admin'), createTask); 

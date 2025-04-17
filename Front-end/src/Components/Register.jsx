@@ -5,11 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
    const onSubmit = async (data) => {
     try {
       
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${BASE_URL}/auth/register`,
         data
       );
       console.log(response);
@@ -68,7 +69,7 @@ const Register = () => {
             >
               <option value="">Select Role</option>
               <option value="employee">Employee</option>
-              <option value="TeamLead">Team Lead</option>
+              <option value="admin">Team Lead</option>
             </select>
             {errors.role && <div className="invalid-feedback">{errors.role.message}</div>}
           </div>
