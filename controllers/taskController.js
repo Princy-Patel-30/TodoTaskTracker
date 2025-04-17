@@ -34,7 +34,11 @@ export const createTask = async (req, res) => {
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find()
+    .populate('assignedBy', 'name email')
+    .populate('assignedTo', 'name email');
+  
+
     res.status(200).json(tasks);
   } catch (error) {
     console.error(error);
@@ -42,18 +46,25 @@ export const getTasks = async (req, res) => {
   }
 };
 
+
 export const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findById(req.params.id)
+    .populate('assignedBy', 'name email')
+    .populate('assignedTo', 'name email');
+  
+
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
+
     res.status(200).json(task);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error', error });
   }
 };
+
 
 export const updateTask = async (req, res) => {
   try {

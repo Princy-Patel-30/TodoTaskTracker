@@ -3,8 +3,12 @@ import Task from '../models/Task.js';
 
 export const createComment = async (req, res) => {
   try {
-    const { taskId, text } = req.body;
-    const userId = req.user._id;
+    const { task: taskId, text } = req.body; 
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized: User not logged in' });
+    }
+    
     if (!taskId || !text) {
       return res.status(400).json({ message: 'Task ID and text are required' });
     }
@@ -23,7 +27,7 @@ export const createComment = async (req, res) => {
 export const getCommentsByTask = async (req, res) => {
   try {
     const { taskId } = req.params;
-    const comments = await Comment.find({ task: taskId }).populate('user', 'email role');
+    const comments = await Comment.find({ task: taskId }).populate('user', 'email role name');
     res.status(200).json(comments);
   } catch (error) {
     res.status(500).json({ message: 'Failed to get comments', error });
