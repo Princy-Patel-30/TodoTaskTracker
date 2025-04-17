@@ -35,7 +35,7 @@ const Login = () => {
         if (role === 'admin') {
           navigate('/admin'); // Redirect to admin dashboard
         } else {
-          navigate('/'); // Redirect to employee dashboard
+          navigate('/dashboard'); // Redirect to employee dashboard
         }
       } else {
         alert(response.data.message || 'Login failed');

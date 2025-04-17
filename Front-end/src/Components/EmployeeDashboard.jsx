@@ -11,7 +11,7 @@ const EmployeeDashboard = () => {
 
   useEffect(() => {
     dispatch(fetchTodos())
-  }, [dispatch])
+  }, [])
 
   if (status === 'loading') return <p>Loading tasks...</p>
   if (status === 'failed') return <p>Error: {error}</p>

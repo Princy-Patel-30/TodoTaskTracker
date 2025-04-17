@@ -6,6 +6,7 @@ const Card = ({ task }) => {
 
   const toggleStatus = () => {
     setStatus(prev => (prev === 'Pending' ? 'Completed' : 'Pending'))
+    dispatch(st)
   }
 
   return (
