@@ -11,9 +11,29 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const onSubmit = async () => {
-  
-  };
+
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const onSubmit = async (data) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/auth/login`, data, {
+      withCredentials: true, 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      console.log('Login successful:', response.data);
+      navigate('/'); 
+    } else {
+      alert(response.data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error('Error logging in:', error);
+    alert(error.response?.data?.message || 'Something went wrong. Try again.');
+  }
+};
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
