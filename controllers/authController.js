@@ -105,9 +105,10 @@ export const login = async (req, res) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
       })
-      .status(200)
-      .json({
+      res.status(200).json({
         message: 'Login successful',
+        token: accessToken,
+        refreshToken,
         user: { id: user._id, email: user.email, role: user.role },
       });
   } catch (error) {
