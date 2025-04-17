@@ -1,3 +1,4 @@
+import React from 'React';
 import './App.css';
 import EmployeeDashboard from './Components/EmployeeDashboard';
 import Login from './Components/Login';

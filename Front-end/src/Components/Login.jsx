@@ -19,7 +19,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, data, {
-        withCredentials: true, 
+        withCredentials: true || include , 
         headers: {
           'Content-Type': 'application/json',
         },
