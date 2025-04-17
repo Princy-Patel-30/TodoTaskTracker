@@ -5,7 +5,11 @@ export const createComment = async (req, res) => {
   try {
     const { taskId, text } = req.body;
     const userId = req.user._id;
-
+    if (!taskId || !text) {
+      return res.status(400).json({ message: 'Task ID and text are required' });
+    }
+    console.log(taskId, text);
+    
     const task = await Task.findById(taskId);
     if (!task) return res.status(404).json({ message: 'Task not found' });
 
