@@ -1,4 +1,5 @@
 import Task from '../models/Task.js';
+import Notification from '../models/Notification.js';
 
 export const createTask = async (req, res) => {
   try {
@@ -13,6 +14,15 @@ export const createTask = async (req, res) => {
       assignedTo,
       status,
     });
+    await Promise.all(
+      assignedTo.map((userId) =>
+        Notification.create({
+          recipient: userId,
+          message: `You have been assigned a new task: "${title}"`,
+          link: `/tasks/${task._id}`,
+        })
+      )
+    );
 
     await task.save();
     res.status(201).json({ message: 'Task created successfully', task });
