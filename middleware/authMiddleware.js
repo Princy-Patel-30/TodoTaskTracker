@@ -51,6 +51,7 @@ export const protect = (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // Attach user info to req
+    res.locals.token = token;
     next(); // Proceed to next middleware
   } catch (err) {
     res.status(401).json({ message: 'Token expired or invalid' });
