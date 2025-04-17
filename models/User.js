@@ -9,46 +9,37 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      validate: {
-        validator: function (v) {
-          return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
-        },
-        message: props => `${props.value} is not a valid email!`,
-      },
     },
     password: {
       type: String,
       required: true,
-      minlength: 6, 
+      minlength: 6,
     },
     role: {
       type: String,
-      enum: ['employee', 'admin'], 
-      default: 'user',
+      enum: ['employee', 'admin'],
+      default: 'employee',
     },
   },
-  {
-    timestamps: true, 
-  }
+  { timestamps: true }
 );
-
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-
-  next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
-
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 const User = mongoose.model('User', userSchema);
-
 export default User;
