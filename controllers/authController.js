@@ -56,7 +56,7 @@ export const login = async (req, res) => {
     }
 
     // Generate tokens
-    const accessToken = generateToken({ id: user._id, role: user.role }, '15m');
+    const accessToken = generateToken({ id: user._id, role: user.role,email:user.email,name:user.name }, '15m');
     const refreshToken = generateToken({ id: user._id }, '7d');
 
     // Set tokens in cookies
