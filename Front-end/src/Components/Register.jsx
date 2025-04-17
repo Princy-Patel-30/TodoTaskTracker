@@ -1,10 +1,28 @@
 import { useForm } from 'react-hook-form';
 import React from "react";
-// import axios from 'axios';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; 
 const Register = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-   const onSubmit = async () => {
+   const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        data
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        alert("Registration successful!");
+        reset(); // Clear form
+        navigate("/login"); // Redirect to login page
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong during registration."
+      );
+    }
 
   };
 
@@ -13,15 +31,6 @@ const Register = () => {
       <div className="w-100" style={{ maxWidth: '400px' }}>
         <h2 className="mb-4 text-center">Register</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="card p-4 shadow-m rounded-4">
-          <div className="mb-3">
-            <label className="form-label">Name</label>
-            <input
-              type="text"
-              className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-              {...register('name', { required: 'Name is required' })}
-            />
-            {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
-          </div>
 
           <div className="mb-3">
             <label className="form-label">Email</label>
