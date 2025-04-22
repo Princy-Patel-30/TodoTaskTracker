@@ -31,7 +31,7 @@ const Card = ({ task }) => {
           </div>
           <div className="col-md-6">
             <div className="p-3 bg-light rounded-3">
-              <strong>Assigned By:</strong> {task.assignedBy}
+              <strong>Assigned By:</strong> {task.assignedBy.name}
             </div>
           </div>
           <div className="col-md-6 d-flex align-items-center justify-content-between p-3 bg-light rounded-3">
